@@ -1,11 +1,11 @@
 {
   "name": "generator-ios-jhi",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Scaffolds an iOS app that uses an Jhipster generated api",
   "homepage": "https://github.com/greengrowapps/generator-ios-jhi",
   "author": {
     "name": "Green grow apps",
-    "email": "greengrowapps@gmail.com",
+    "email": "info@greengrowapps.com",
     "url": "https://www.greengrowapps.com"
   },
   "files": [
@@ -13,8 +13,10 @@
   ],
   "main": "generators/index.js",
   "keywords": [
-    "jhipster-generator ios swift",
-    "yeoman-generator"
+    "jhipster-generator",
+    "yeoman-generator",
+    "ios",
+    "swift"
   ],
   "devDependencies": {
     "yeoman-test": "^1.7.0",
