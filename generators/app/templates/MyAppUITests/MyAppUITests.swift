@@ -1,11 +1,3 @@
-//
-//  <%= appName %>UITests.swift
-//  <%= appName %>UITests
-//
-//  Created by Pablo Apellidos on 8/6/18.
-//  Copyright © 2018 Pablo Apellidos. All rights reserved.
-//
-
 import XCTest
 
 class <%= appName %>UITests: XCTestCase {

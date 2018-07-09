@@ -21,6 +21,8 @@
 		8231B87C20CA882300C934F7 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 8231B87B20CA882300C934F7 /* Podfile */; };
 		8231B88020CA93FC00C934F7 /* JhiUsersDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8231B87F20CA93FC00C934F7 /* JhiUsersDto.swift */; };
 		8231B88420CEA1B200C934F7 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8231B88320CEA1B200C934F7 /* BaseViewController.swift */; };
+		824AF2B920F3811D00FAC78C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 824AF2B820F3811D00FAC78C /* GoogleService-Info.plist */; };
+		824AF2BB20F3823700FAC78C /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824AF2BA20F3823700FAC78C /* Core.swift */; };
 		826856C520E27632000CB46A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826856C420E27632000CB46A /* SplashViewController.swift */; };
 		826856C720E27976000CB46A /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826856C620E27976000CB46A /* NavigationController.swift */; };
 		82E3807920CECAB400B0DD16 /* RecoverPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E3807820CECAB400B0DD16 /* RecoverPasswordViewController.swift */; };
@@ -63,9 +65,11 @@
 		8231B87520CA714400C934F7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		8231B87720CA715700C934F7 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8231B87920CA7FEA00C934F7 /* JhiUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JhiUsers.swift; sourceTree = "<group>"; };
-		8231B87B20CA882300C934F7 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		8231B87B20CA882300C934F7 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		8231B87F20CA93FC00C934F7 /* JhiUsersDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JhiUsersDto.swift; sourceTree = "<group>"; };
 		8231B88320CEA1B200C934F7 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		824AF2B820F3811D00FAC78C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		824AF2BA20F3823700FAC78C /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		826856C420E27632000CB46A /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		826856C620E27976000CB46A /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		82E3807820CECAB400B0DD16 /* RecoverPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverPasswordViewController.swift; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 				8231B84E20CA6A0C00C934F7 /* Assets.xcassets */,
 				8231B85020CA6A0C00C934F7 /* LaunchScreen.storyboard */,
 				8231B85320CA6A0C00C934F7 /* Info.plist */,
+				824AF2B820F3811D00FAC78C /* GoogleService-Info.plist */,
 			);
 			path = <%= appName %>;
 			sourceTree = "<group>";
@@ -163,6 +168,7 @@
 			children = (
 				8231B87920CA7FEA00C934F7 /* JhiUsers.swift */,
 				8231B87F20CA93FC00C934F7 /* JhiUsersDto.swift */,
+				824AF2BA20F3823700FAC78C /* Core.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -296,6 +302,7 @@
 			files = (
 				8231B85220CA6A0C00C934F7 /* LaunchScreen.storyboard in Resources */,
 				8231B84F20CA6A0C00C934F7 /* Assets.xcassets in Resources */,
+				824AF2B920F3811D00FAC78C /* GoogleService-Info.plist in Resources */,
 				8231B87C20CA882300C934F7 /* Podfile in Resources */,
 				8231B84D20CA6A0C00C934F7 /* Main.storyboard in Resources */,
 			);
@@ -332,7 +339,9 @@
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -343,7 +352,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -396,6 +407,7 @@
 				8231B87620CA714400C934F7 /* RegisterViewController.swift in Sources */,
 				8231B84A20CA6A0C00C934F7 /* LoginViewController.swift in Sources */,
 				8231B88020CA93FC00C934F7 /* JhiUsersDto.swift in Sources */,
+				824AF2BB20F3823700FAC78C /* Core.swift in Sources */,
 				826856C520E27632000CB46A /* SplashViewController.swift in Sources */,
 				8231B84820CA6A0C00C934F7 /* AppDelegate.swift in Sources */,
 				8231B87820CA715700C934F7 /* MainViewController.swift in Sources */,
@@ -572,7 +584,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = <%= appName %>/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = <%= bundleId %>;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mycompany.<%= appName %>;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -587,7 +599,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = <%= appName %>/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = <%= bundleId %>;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mycompany.<%= appName %>;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -602,7 +614,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = <%= appName %>Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = <%= bundleId %>Tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mycompany.<%= appName %>Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -618,7 +630,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = <%= appName %>Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = <%= bundleId %>Tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mycompany.<%= appName %>Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -633,7 +645,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = <%= appName %>UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = <%= bundleId %>UITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mycompany.<%= appName %>UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -648,7 +660,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = <%= appName %>UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = <%= bundleId %>UITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mycompany.<%= appName %>UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

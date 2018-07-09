@@ -6,4 +6,6 @@ target '<%= appName %>' do
     pod 'SwiftyJSON', '~> 4.0'
     pod 'GoogleSignIn'
     pod 'FBSDKLoginKit'
+    pod 'Firebase/Core'
+    pod 'Firebase/Messaging'
 end

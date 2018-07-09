@@ -61,6 +61,10 @@ Copy your App identifier (only numbers) and replace YOUR_FACEBOOK_ID in Plist.in
 
 You should be able to sign in with Facebook
 
+## Configure Firebase push notifications
+
+Create an iOS App in your [Firebase console](https://console.firebase.google.com), download the GoggleService-Info.plist and replace the existing in project
+
 
 ## Getting To Know Yeoman
 

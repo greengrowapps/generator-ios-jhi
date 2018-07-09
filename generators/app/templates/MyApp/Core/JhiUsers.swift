@@ -1,11 +1,3 @@
-//
-//  JhiUsers.swift
-//  <%= appName %>
-//
-//  Created by Pablo Apellidos on 8/6/18.
-//  Copyright © 2018 Pablo Apellidos. All rights reserved.
-//
-
 import Foundation
 import Alamofire
 import SwiftyJSON
@@ -14,6 +6,11 @@ enum RegisterStatus{
     case SUCCESS
     case ERROR
     case ALREADY_EXISTS
+}
+
+protocol LoginDelegate{
+    func loginDidSuccess(token:String)
+    func logoutDidSuccess()
 }
 
 class JhiUsersApi{
@@ -59,6 +56,7 @@ class JhiUsers{
     private let googleSavedDefault = "JhiGoogleSaved";
     private let facebookSavedDefault = "JhiFacebookSaved";
 
+    public var loginDelegate : LoginDelegate?
 
     private let api: JhiUsersApi
     private var token: String?
@@ -112,6 +110,7 @@ class JhiUsers{
                         return
                 }
                 self.token = token
+                self.loginDelegate?.loginDidSuccess(token: token)
 
                 if(self.keepLogin){
                     self.saveUsernameAndPassword(username:email,password:password)
@@ -380,6 +379,7 @@ class JhiUsers{
         saveGoogleLogin(false)
         saveFacebookLogin(false)
         token = nil;
+        self.loginDelegate?.logoutDidSuccess()
     }
 
 
