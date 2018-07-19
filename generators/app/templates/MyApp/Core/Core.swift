@@ -1,6 +1,5 @@
 import Foundation
-import Alamofire
-import SwiftyJSON
+import GGARest
 
 class Core : LoginDelegate {
     private let firebaseTokenDefault = "FirebaseToken"
@@ -9,7 +8,6 @@ class Core : LoginDelegate {
 
     let users : JhiUsers
     let baseUrl : String
-
     var token : String?
 
     init(users:JhiUsers, baseUrl: String){
@@ -23,39 +21,19 @@ class Core : LoginDelegate {
         if(token == loadFirebaseToken()){
             return
         }
-
         saveFirebaseTokenConnectedWithUser(enabled: false)
+        GGARest.ws()
+        .post(url: baseUrl+"/api/firebase-tokens")
+        .withJson(object: FirebaseTokenDto(token: token))
+        .onSuccess(resultType: FirebaseTokenDto.self, objectListener: {(response:ObjectStorer,fullResponse:FullRepsonse) -> Void in
+            let object = response.getObject(type: FirebaseTokenDto.self)
+            self.saveFirebaseToken(id:object.id!.intValue,token:object.token);
+        })
+        .onOther(simpleListener: {(fullResponse:FullRepsonse) -> Void in
+                
+        })
+        .execute()
 
-        guard let url = URL(string: baseUrl+"/api/firebase-tokens" ) else {
-            return
-        }
-        let json = JSON([
-            "token": token,
-            ])
-
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let pjson = json.rawString(String.Encoding.utf8, options: .sortedKeys)
-
-        request.httpBody = (pjson?.data(using: .utf8))! as Data
-
-        Alamofire.request(request)
-            .responseJSON { response in
-                guard let value = response.result.value as? [String: Any] else {
-                    print("Malformed data received from register token")
-                    return
-                }
-                let json = JSON(value)
-                guard let tokenId = json["id"].int else {
-                    return
-                }
-                guard let token = json["token"].string else {
-                    return
-                }
-                self.saveFirebaseToken(id:tokenId,token:token)
-        }
     }
     private func saveFirebaseToken(id: Int, token:String){
         let defaults = UserDefaults.standard
@@ -88,36 +66,20 @@ class Core : LoginDelegate {
         self.token = token
 
         if let firebaseToken = loadFirebaseToken() {
-
-            guard let url = URL(string: baseUrl+"/api/firebase-tokens" ) else {
-                return
-            }
-            let json = JSON([
-                "id": loadFirebaseTokenId(),
-                "token": firebaseToken
-                ])
-
-            var request = URLRequest(url: url)
-            request.httpMethod = HTTPMethod.put.rawValue
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue("Bearer "+token, forHTTPHeaderField: "Authorization")
-
-            let pjson = json.rawString(String.Encoding.utf8, options: .sortedKeys)
-
-            request.httpBody = (pjson?.data(using: .utf8))! as Data
-
-            Alamofire.request(request)
-                .responseJSON { response in
-                    guard let value = response.result.value as? [String: Any] else {
-                        print("Malformed data received from register token")
-                        return
+            GGARest.ws()
+                .post(url: baseUrl+"/api/firebase-tokens")
+                .withJson(object: FirebaseTokenDto(token: firebaseToken, id:loadFirebaseTokenId()))
+                .with(headers: ("Authorization","Bearer "+token))
+                .onSuccess(resultType: FirebaseTokenDto.self, objectListener: {(response:ObjectStorer,fullResponse:FullRepsonse) -> Void in
+                    let object = response.getObject(type: FirebaseTokenDto.self)
+                    if(object.id != nil && object.token.count > 0){
+                        self.saveFirebaseTokenConnectedWithUser(enabled: true)
                     }
-                    let json = JSON(value)
-                    if json["id"].int == nil || json["token"].string == nil {
-                        return
-                    }
-                    self.saveFirebaseTokenConnectedWithUser(enabled: true)
-            }
+                })
+                .onOther(simpleListener: {(fullResponse:FullRepsonse) -> Void in
+                    
+                })
+                .execute()
         }
     }
     func logoutDidSuccess() {

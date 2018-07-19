@@ -43,7 +43,7 @@ module.exports = class extends Generator {
     const templateFiles = [
       ['Podfile'],
       ['Podfile.lock'],
-      ['REadme.md'],
+      ['Readme.md'],
       ['_.gitignore', ' .gitignore'],
       [`${oldAppName}`, `${appName}`],
       [`${oldAppName}.xcodeproj`, `${appName}.xcodeproj`],

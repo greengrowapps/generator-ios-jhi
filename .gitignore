@@ -1,2 +1,7 @@
 node_modules
 coverage
+.DS_Store
+.project
+.settings/
+.idea/
+*.iml

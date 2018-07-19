@@ -1,6 +1,5 @@
 import Foundation
-import Alamofire
-import SwiftyJSON
+import GGARest
 
 enum RegisterStatus{
     case SUCCESS
@@ -69,55 +68,30 @@ class JhiUsers{
     }
 
     func login(email: String, password: String, completion: @escaping (Bool,String) -> Void) {
-        guard let url = URL(string: api.loginUrl() ) else {
-            completion(false,"")
-            return
-        }
-        let json = JSON([
-            "username": email,
-            "password": password
-            ])
-
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let pjson = json.rawString(String.Encoding.utf8, options: .sortedKeys)
-
-        request.httpBody = (pjson?.data(using: .utf8))! as Data
-
-        Alamofire.request(request)
-            .responseJSON { response in
-                guard let value = response.result.value as? [String: Any] else {
-                        print("Malformed data received from login")
-                        completion(false,"Server error")
-                        return
-                }
-                let json = JSON(value)
-                let responseStatus = json["status"].int;
-                guard responseStatus==nil else {
-                    guard let message = json["detail"].string else {
-                        completion(false,"Server error")
-                        print("Error while login: \(String(describing: response.result.error))")
-                        return
-                    }
-                    completion(false,message)
-                    return
-                }
-
-                guard let token = json["id_token"].string else {
-                        completion(false,"Bad credentials")
-                        return
-                }
-                self.token = token
-                self.loginDelegate?.loginDidSuccess(token: token)
-
-                if(self.keepLogin){
-                    self.saveUsernameAndPassword(username:email,password:password)
-                }
-
-                completion(true,"")
-        }
+        GGARest.ws()
+        .post(url: api.loginUrl())
+        .withJson(object: LoginRequestDto(username:email,password:password))
+        .onSuccess(resultType: LoginResponseDto.self, objectListener: {(objectStorer:ObjectStorer,fullResponse:FullRepsonse)-> Void in
+            let object=objectStorer.getObject(type: LoginResponseDto.self);
+            if(object.id_token.count <= 0){
+                completion(false,"Bad credentials")
+                return;
+            }
+            self.token = object.id_token
+            self.loginDelegate?.loginDidSuccess(token: object.id_token)
+            
+            if(self.keepLogin){
+                self.saveUsernameAndPassword(username:email,password:password)
+            }
+            completion(true,"")
+        }).onResponse(code: 401, simpleListener: {(fullRepsonse:FullRepsonse)-> Void in
+            completion(false,"Bad credentials")
+        })
+        .onOther(simpleListener: {(fullRepsonse:FullRepsonse)-> Void in
+            completion(false,"Server error")
+        })
+        .execute()
+        
     }
     func autoLogin(completion: @escaping (Bool,String) -> Void) {
         let defaults = UserDefaults.standard;
@@ -146,215 +120,100 @@ class JhiUsers{
     }
 
     func loginWithGoogle(token: String, completion: @escaping (Bool,String) -> Void) {
-        guard let url = URL(string: api.loginWithGoogleUrl() ) else {
-            completion(false,"")
-            return
-        }
-        let json = JSON(token)
-
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let pjson = json.rawString(String.Encoding.utf8, options: .sortedKeys)
-
-        request.httpBody = (pjson?.data(using: .utf8))! as Data
-
-        Alamofire.request(request)
-            .responseJSON { response in
-                guard let value = response.result.value as? [String: Any] else {
-                    print("Malformed data received from login")
-                    completion(false,"Server error")
-                    return
-                }
-                let json = JSON(value)
-                guard let token = json["id_token"].string else {
+        GGARest.ws()
+            .post(url: api.loginWithGoogleUrl())
+            .withJson(object: token)
+            .onSuccess(resultType: LoginResponseDto.self, objectListener: {(objectStorer:ObjectStorer,fullResponse:FullRepsonse)-> Void in
+                let object=objectStorer.getObject(type: LoginResponseDto.self);
+                if(object.id_token.count <= 0){
                     completion(false,"Bad credentials")
-                    return
+                    return;
                 }
-                self.token = token
+                self.token = object.id_token
                 self.saveGoogleLogin(self.keepLogin)
                 completion(true,"")
-        }
+            }).onResponse(code: 401, simpleListener: {(fullRepsonse:FullRepsonse)-> Void in
+                completion(false,"Bad credentials")
+            })
+            .onOther(simpleListener: {(fullRepsonse:FullRepsonse)-> Void in
+                completion(false,"Server error")
+            })
+            .execute()
     }
 
     func loginWithFacebook(token: String, completion: @escaping (Bool,String) -> Void) {
-        guard let url = URL(string: api.loginWithFacebookUrl()) else {
-            completion(false,"")
-            return
-        }
-        let json = JSON(token)
-
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let pjson = json.rawString(String.Encoding.utf8, options: .sortedKeys)
-
-        request.httpBody = (pjson?.data(using: .utf8))! as Data
-
-        Alamofire.request(request)
-            .responseJSON { response in
-                guard let value = response.result.value as? [String: Any] else {
-                    print("Malformed data received from login")
-                    completion(false,"Server error")
-                    return
-                }
-                let json = JSON(value)
-                guard let token = json["id_token"].string else {
+        GGARest.ws()
+            .post(url: api.loginWithFacebookUrl())
+            .withJson(object: token)
+            .onSuccess(resultType: LoginResponseDto.self, objectListener: {(objectStorer:ObjectStorer,fullResponse:FullRepsonse)-> Void in
+                let object=objectStorer.getObject(type: LoginResponseDto.self);
+                if(object.id_token.count <= 0){
                     completion(false,"Bad credentials")
-                    return
+                    return;
                 }
-                self.token = token
+                self.token = object.id_token
                 self.saveFacebookLogin(self.keepLogin)
                 completion(true,"")
-        }
+            }).onResponse(code: 401, simpleListener: {(fullRepsonse:FullRepsonse)-> Void in
+                completion(false,"Bad credentials")
+            })
+            .onOther(simpleListener: {(fullRepsonse:FullRepsonse)-> Void in
+                completion(false,"Server error")
+            })
+            .execute()
     }
     func register(email: String, firstName: String, lastName: String, password: String, langKey: String, completion: @escaping (RegisterStatus) -> Void) {
-        guard let url = URL(string: api.registerUrl()) else {
+  
+        let registerObject = RegisterRequestDto(firstName: firstName, lastName: lastName, password: password, email: email, langKey: langKey, login: email);
+        GGARest.ws()
+        .post(url: api.registerUrl())
+        .withJson(object: registerObject)
+        .onResponse(code: 201, simpleListener: {(fullRepsonse:FullRepsonse)-> Void in
+            completion(RegisterStatus.SUCCESS)
+        })
+        .onResponse(code: 400, resultType: String.self, objectListener: {(storer:ObjectStorer,response:FullRepsonse) -> Void in
+            completion(RegisterStatus.ALREADY_EXISTS)
+        })
+        .onOther(simpleListener: {(fullRepsonse:FullRepsonse)-> Void in
             completion(RegisterStatus.ERROR)
-            return
-        }
-        let json = JSON([
-            "firstName": firstName,
-            "lastName": lastName,
-            "password": password,
-            "email": email,
-            "langKey": langKey,
-            "login": email
-            ])
-
-
-
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let pjson = json.rawString(String.Encoding.utf8, options: .sortedKeys)
-
-        request.httpBody = (pjson?.data(using: .utf8))! as Data
-
-        Alamofire.request(request)
-            .responseJSON { response in
-                guard let statusCode = response.response?.statusCode else {
-                    completion(RegisterStatus.ERROR)
-                    return
-                }
-
-                if(statusCode==201){
-                    completion(RegisterStatus.SUCCESS)
-                    return
-                }
-
-                guard let value = response.result.value as? [String: Any] else {
-                    print("Malformed data received from register")
-                    completion(RegisterStatus.ERROR)
-                    return
-                }
-                let json = JSON(value)
-                let responseStatus = json["status"].int;
-                guard responseStatus==nil else {
-                    guard let errorKey = json["errorKey"].string else {
-                        completion(RegisterStatus.ERROR)
-                        print("Error while register: \(String(describing: response.result.error))")
-                        return
-                    }
-                    completion(errorKey=="userexists" ? RegisterStatus.ALREADY_EXISTS : RegisterStatus.ERROR)
-                    return
-                }
-                completion(RegisterStatus.ERROR)
-        }
+        })
+        .execute();
     }
     func recoverPassword(email: String, completion: @escaping (Bool) -> Void) {
-        guard let url = URL(string: api.recoverPasswordUrl()) else {
+        GGARest.ws()
+        .post(url: api.recoverPasswordUrl())
+        .onSuccess(simpleListener:{(fullRepsonse:FullRepsonse)-> Void in
+            completion(true)
+        }).onOther(simpleListener:{(fullRepsonse:FullRepsonse)-> Void in
             completion(false)
-            return
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue("text/plain;charset=UTF-8", forHTTPHeaderField: "Content-Type")
-
-        request.httpBody = (email.data(using: .utf8))! as Data
-
-        Alamofire.request(request)
-            .responseJSON { response in
-                guard let statusCode = response.response?.statusCode else {
-                    completion(false)
-                    return
-                }
-
-                if(statusCode==200){
-                    completion(true)
-                    return
-                }
-
-                completion(false)
-        }
+        }).execute();
     }
+    
     func changePassword(password: String, completion: @escaping (Bool) -> Void) {
-        guard let url = URL(string: api.changePasswordUrl()) else {
-            completion(false)
-            return
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue("text/plain;charset=UTF-8", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer "+(token ?? ""), forHTTPHeaderField: "Authorization")
-
-        request.httpBody = (password.data(using: .utf8))! as Data
-
-        Alamofire.request(request)
-            .response { response in
-                guard let statusCode = response.response?.statusCode else {
-                    completion(false)
-                    return
-                }
-
-                if(statusCode==200){
-                    completion(true)
-                    return
-                }
-
+        GGARest.ws()
+            .post(url: api.accountUrl())
+            .withPlainText(text: password)
+            .with(headers: ("Authorization","Bearer "+(token ?? "")))
+            .onSuccess(simpleListener:{(fullRepsonse:FullRepsonse)-> Void in
+                completion(true)
+            }).onOther(simpleListener:{(fullRepsonse:FullRepsonse)-> Void in
                 completion(false)
-        }
+            }).execute();
     }
+    
     func loadUser(completion: @escaping (JhiUserDto?) -> Void) {
-        guard let url = URL(string: api.accountUrl() ) else {
+        GGARest.ws()
+        .get(url: api.accountUrl())
+        .with(headers: ("Authorization","Bearer "+(token ?? "")))
+        .onSuccess(resultType: JhiUserDto.self, objectListener: {(objectStorer:ObjectStorer,fullResponse:FullRepsonse)-> Void in
+            let object = objectStorer.getObject(type: JhiUserDto.self);
+            self.user = object
+            completion(object)
+        })
+        .onOther(simpleListener: {(fullRepsonse:FullRepsonse)-> Void in
             completion(nil)
-            return
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer "+(token ?? ""), forHTTPHeaderField: "Authorization")
-
-        Alamofire.request(request)
-            .validate()
-            .responseJSON { response in
-                guard response.result.isSuccess else {
-                    print("Error while login: \(String(describing: response.result.error))")
-                    completion(nil)
-                    return
-                }
-
-                guard let value = response.result.value as? [String: Any]
-                     else {
-                        print("Malformed data received from login")
-                        completion(nil)
-                        return
-                }
-
-                let json = JSON(value)
-                let user = JhiUserDto( login: json["login"].string,
-                                       email: json["email"].string,
-                                       firstName: json["firstName"].string,
-                                       lastName: json["lastName"].string,
-                                       phoneNumber: nil)
-
-                self.user = user
-                completion(user)
-        }
+        })
+        .execute()
     }
     func isLoginSaved() -> Bool {
 
