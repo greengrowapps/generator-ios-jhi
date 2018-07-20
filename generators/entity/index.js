@@ -212,136 +212,47 @@ module.exports = class extends Generator {
       this.fs.copyTpl(`${this.sourceRoot()}/${src}`, `${dest}`, this.props);
   });
 
+    /* add file to project.pbxproj */
 
-    /* Add service method in Core */
-/*
-    const coreImports =
-      `import ${this.props.packageName}.core.data.${this.props.entityNameLower}.${this.props.entityName}Dto\n` +
-      `import ${this.props.packageName}.core.data.${this.props.entityNameLower}.${this.props.entityName}RestResource\n` +
-      `import ${this.props.packageName}.core.data.${this.props.entityNameLower}.${this.props.entityName}Service\n` +
-      '//import-needle\n';
+    let fileRef= `${this.props.entityName}REF`;
 
-    const coreService =
-      `    fun ${this.props.entityNameLower}Service(): ${
-        this.props.entityName
-        }Service {\n` +
-      `        val resource = ${
-        this.props.entityName
-        }RestResource(configuration.serverUrl,GgaRest.ws(),jhiUsers)\n` +
-      `        return ${
-        this.props.entityName
-        }Service(resource, CombinedCache(preferences,serializer))\n` +
-      `    }\n` +
-      '//services-needle\n';
+    const fileDefinition =
+      `//generator-ios-jhi-add-files-here\n`+
+      `\t\t ${fileRef} /* ${this.props.entityName}Dto.swift in Sources */ = {isa = PBXBuildFile; fileRef = ${fileRef} /* ${this.props.entityName}Dto.swift */; };\n`;
+
+    const fileDefinition2 =
+      `//generator-ios-jhi-add-files2-here\n`+
+      `\t\t ${fileRef}  /* ${this.props.entityName}Dto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ${this.props.entityName}Dto.swift; sourceTree = "<group>"; };\n`;
+
+    const fileDefinition3 =
+      `//generator-ios-jhi-add-files3-here\n`+
+      `\t\t ${fileRef} /* ${this.props.entityName}Dto.swift */,\n`;
 
     this.fs.copy(
-      `app/src/main/java/${packageDir}/core/Core.kt`,
-      `app/src/main/java/${packageDir}/core/Core.kt`,
+      `${appName}.xcodeproj/project.pbxproj`,
+      `${appName}.xcodeproj/project.pbxproj`,
       {
         process: function(content) {
-          let regEx = new RegExp('//import-needle', 'g');
-          let newContent = content.toString().replace(regEx, coreImports);
-          regEx = new RegExp('//services-needle', 'g');
-          newContent = newContent.toString().replace(regEx, coreService);
-          return newContent;
+          let regEx = new RegExp('//generator-ios-jhi-add-files3-here', 'g');
+          let newcontent= content.toString().replace(regEx, fileDefinition3);
+
+          regEx = new RegExp('//generator-ios-jhi-add-files2-here', 'g');
+          newcontent= newcontent.toString().replace(regEx, fileDefinition2);
+
+          regEx = new RegExp('//generator-ios-jhi-add-files-here', 'g');
+          newcontent= newcontent.toString().replace(regEx, fileDefinition);
+          return newcontent
         }
       }
     );
-    */
 
-    /* Add menu option call in activity */
-/*
-    const menuOptionCallback =
-      `             R.id.nav_${this.props.entityNameLower} -> {\n` +
-      `               startActivity(${
-        this.props.entityName
-        }Activity.openIntent(this))\n` +
-      '             }' +
-      '//options-needle\n';
-
-    this.fs.copy(
-      `app/src/main/java/${packageDir}/MainActivity.kt`,
-      `app/src/main/java/${packageDir}/MainActivity.kt`,
-      {
-        process: function(content) {
-          let regEx = new RegExp('//options-needle', 'g');
-          return content.toString().replace(regEx, menuOptionCallback);
-        }
-      }
-    );
-*/
-    /* Add menu item in navigation drawer */
-/*
-    const menuItem =
-      `<item\n` +
-      `android:id="@+id/nav_${this.props.entityNameLower}"\n` +
-      `android:icon="@drawable/ic_menu_camera"\n` +
-      `android:title="@string/entity_${this.props.entityNameLower}"\n` +
-      '/>' +
-      '<!--<menu-needle-->\n';
-
-    this.fs.copy(
-      `app/src/main/res/menu/activity_main_drawer.xml`,
-      `app/src/main/res/menu/activity_main_drawer.xml`,
-      {
-        process: function(content) {
-          let regEx = new RegExp('<!--<menu-needle-->', 'g');
-          return content.toString().replace(regEx, menuItem);
-        }
-      }
-    );
-    */
-
-    /* Add string resources */
-/*
-    let toAppend = [
-      [`entity_${this.props.entityNameLower}`,`${this.props.entityName}`],
-      [`title_activity_${this.props.entityNameLower}`,`${this.props.entityName}`],
-      [`title_activity_${this.props.entityNameLower}_detail`,`${this.props.entityName}`],
-    ];
-
-    for(let i = 0; i<this.props.fields.length ; i++){
-      toAppend.push([`field_${this.props.entityNameLower}_${this.props.fields[i].fieldName}`, `${this.props.fields[i].fieldName}`]);
-      toAppend.push([`entity_${this.props.entityNameLower}_prompt_${this.props.fields[i].fieldName}`, `${this.props.fields[i].fieldName}`]);
-      toAppend.push([`error_${this.props.entityNameLower}_invalid_${this.props.fields[i].fieldName}`, `Invalid ${this.props.fields[i].fieldName}`]);
-    }
-
-    this._appendStrings(toAppend);
-*/
-    /* Add activity in manifest */
-/*
-    const manifestActivity =
-      '    <activity\n' +
-      `            android:name=".${this.props.entityName}Activity"\n` +
-      `            android:label="@string/title_activity_${
-        this.props.entityNameLower
-        }"\n` +
-      '            android:theme="@style/AppTheme.NoActionBar">\n' +
-      '            <meta-data\n' +
-      '                android:name="android.support.PARENT_ACTIVITY"\n' +
-      `                android:value="${this.props.packageName}.MainActivity" />\n` +
-      '        </activity>\n' +
-      '    <activity\n' +
-      `            android:name=".${this.props.entityName}DetailActivity"\n` +
-      `            android:label="@string/title_activity_${
-        this.props.entityNameLower
-        }_detail">\n` +
-      '            <meta-data\n' +
-      '                android:name="android.support.PARENT_ACTIVITY"\n' +
-      `                android:value="${this.props.packageName}.${this.props.entityName}Activity" />\n` +
-      '        </activity>\n' +
-      '      <!--activity-needle-->\n';
-
-    this.fs.copy(`app/src/main/AndroidManifest.xml`, `app/src/main/AndroidManifest.xml`, {
-      process: function(content) {
-        let regEx = new RegExp('<!--activity-needle-->', 'g');
-        return content.toString().replace(regEx, manifestActivity);
-      }
-    });
-    */
   }
 
   _scaffoldEnum(enumName,enumValues){
+
+    //TODO
+    this.log("Enum not implemented yet")
+    return;
 
     this.props.enumName = enumName;
     this.props.enumValues = enumValues.split(',');
