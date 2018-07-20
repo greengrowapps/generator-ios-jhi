@@ -60,6 +60,9 @@ module.exports = class extends Generator {
     templateFiles.forEach(([src, dest = src]) => {
       this.fs.copyTpl(`${this.sourceRoot()}/${src}`, `${dest}`, replacements);
     });
+    this.config.set('appName', this.props.appName);
+
+    this.config.save();
   }
 
   install() {}

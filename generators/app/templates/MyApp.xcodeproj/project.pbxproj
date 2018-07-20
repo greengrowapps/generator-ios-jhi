@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		/*generator-ios-jhi add files here*/
 		3F31B773930EE27FB39F10D9 /* Pods_<%= appName %>.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24BA1095E9B6244D55C2AD7F /* Pods_<%= appName %>.framework */; };
 		4D219E622100D3F90080566A /* RegisterRequestDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D219E612100D3F90080566A /* RegisterRequestDto.swift */; };
 		4D219E66210125A30080566A /* FirebaseTokenDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D219E65210125A30080566A /* FirebaseTokenDto.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		/*generator-ios-jhi add files here*/
 		24BA1095E9B6244D55C2AD7F /* Pods_<%= appName %>.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_<%= appName %>.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D219E612100D3F90080566A /* RegisterRequestDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequestDto.swift; sourceTree = "<group>"; };
 		4D219E65210125A30080566A /* FirebaseTokenDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseTokenDto.swift; sourceTree = "<group>"; };
@@ -109,9 +111,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D1925E521026EED00EE3522 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+					/*generator-ios-jhi add file reference in entityes here*/
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
 		4D6F994720FFCF840097A271 /* dto */ = {
 			isa = PBXGroup;
 			children = (
+				4D1925E521026EED00EE3522 /* Entities */,
 				8231B87F20CA93FC00C934F7 /* JhiUsersDto.swift */,
 				4D6F994A20FFD09F0097A271 /* LoginRequestDto.swift */,
 				4D6F994C20FFD0E20097A271 /* LoginResponseDto.swift */,
@@ -426,6 +437,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+					/*generator-ios-jhi add files here*/
 				8231B87620CA714400C934F7 /* RegisterViewController.swift in Sources */,
 				8231B84A20CA6A0C00C934F7 /* LoginViewController.swift in Sources */,
 				8231B88020CA93FC00C934F7 /* JhiUsersDto.swift in Sources */,
