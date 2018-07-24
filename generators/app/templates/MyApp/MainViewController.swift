@@ -32,6 +32,18 @@ class MainViewController: BaseViewController {
             alert(title: "Error", message: "Password not changed")
         }
     }
+     @IBAction func bClick(_ sender: Any) {
+            //let viewController = MyEntityList(nibName: "MyEntityList", bundle: nil)
+
+        /*    // Present
+            self.present(viewController, animated: true) {
+
+            }
+     */
+
+            //push
+         //   self.navigationController?.pushViewController(viewController, animated: true)
+        }
     @IBAction func logout(_ sender: Any) {
         let users = getJhiUsers();
         if(users.isFacebookLoginSaved()){

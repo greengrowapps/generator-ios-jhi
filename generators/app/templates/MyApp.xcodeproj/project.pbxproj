@@ -11,6 +11,8 @@
 		3F31B773930EE27FB39F10D9 /* Pods_<%= appName %>.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24BA1095E9B6244D55C2AD7F /* Pods_<%= appName %>.framework */; };
 		4D219E622100D3F90080566A /* RegisterRequestDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D219E612100D3F90080566A /* RegisterRequestDto.swift */; };
 		4D219E66210125A30080566A /* FirebaseTokenDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D219E65210125A30080566A /* FirebaseTokenDto.swift */; };
+		4D5B282C2106737400107DA9 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B282B2106737400107DA9 /* BaseService.swift */; };
+		4D5B282E210673AF00107DA9 /* BaseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B282D210673AF00107DA9 /* BaseEntity.swift */; };
 		4D6F994B20FFD09F0097A271 /* LoginRequestDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F994A20FFD09F0097A271 /* LoginRequestDto.swift */; };
 		4D6F994D20FFD0E20097A271 /* LoginResponseDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F994C20FFD0E20097A271 /* LoginResponseDto.swift */; };
 		4D6F994F20FFD3ED0097A271 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4D6F994E20FFD3ED0097A271 /* GoogleService-Info.plist */; };
@@ -55,6 +57,8 @@
 		24BA1095E9B6244D55C2AD7F /* Pods_<%= appName %>.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_<%= appName %>.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D219E612100D3F90080566A /* RegisterRequestDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequestDto.swift; sourceTree = "<group>"; };
 		4D219E65210125A30080566A /* FirebaseTokenDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseTokenDto.swift; sourceTree = "<group>"; };
+		4D5B282B2106737400107DA9 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		4D5B282D210673AF00107DA9 /* BaseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEntity.swift; sourceTree = "<group>"; };
 		4D6F994A20FFD09F0097A271 /* LoginRequestDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestDto.swift; sourceTree = "<group>"; };
 		4D6F994C20FFD0E20097A271 /* LoginResponseDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseDto.swift; sourceTree = "<group>"; };
 		4D6F994E20FFD3ED0097A271 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../git/generator-ios-jhi/generators/app/templates/MyApp/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -114,9 +118,18 @@
 		4D1925E521026EED00EE3522 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-					//generator-ios-jhi-add-files3-here
+				//generator-ios-jhi-add-files3-here
+				4D5B282D210673AF00107DA9 /* BaseEntity.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		4D5B282A2106735600107DA9 /* services */ = {
+			isa = PBXGroup;
+			children = (
+				4D5B282B2106737400107DA9 /* BaseService.swift */,
+			);
+			path = services;
 			sourceTree = "<group>";
 		};
 		4D6F994720FFCF840097A271 /* dto */ = {
@@ -197,6 +210,7 @@
 		82AA7AB620F3325700440020 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				4D5B282A2106735600107DA9 /* services */,
 				4D6F994720FFCF840097A271 /* dto */,
 				8231B87920CA7FEA00C934F7 /* JhiUsers.swift */,
 				824AF2BA20F3823700FAC78C /* Core.swift */,
@@ -437,8 +451,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-					/*generator-ios-jhi add files here*/
+				//generator-ios-jhi-add-files4-here
 				8231B87620CA714400C934F7 /* RegisterViewController.swift in Sources */,
+				4D5B282E210673AF00107DA9 /* BaseEntity.swift in Sources */,
 				8231B84A20CA6A0C00C934F7 /* LoginViewController.swift in Sources */,
 				8231B88020CA93FC00C934F7 /* JhiUsersDto.swift in Sources */,
 				824AF2BB20F3823700FAC78C /* Core.swift in Sources */,
@@ -450,6 +465,7 @@
 				8231B88420CEA1B200C934F7 /* BaseViewController.swift in Sources */,
 				4D6F994D20FFD0E20097A271 /* LoginResponseDto.swift in Sources */,
 				826856C720E27976000CB46A /* NavigationController.swift in Sources */,
+				4D5B282C2106737400107DA9 /* BaseService.swift in Sources */,
 				4D6F994B20FFD09F0097A271 /* LoginRequestDto.swift in Sources */,
 				82E3807920CECAB400B0DD16 /* RecoverPasswordViewController.swift in Sources */,
 				8231B87A20CA7FEA00C934F7 /* JhiUsers.swift in Sources */,

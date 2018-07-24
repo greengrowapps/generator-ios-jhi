@@ -215,10 +215,12 @@ module.exports = class extends Generator {
     /* add file to project.pbxproj */
 
     let fileRef= `${this.props.entityName}REF`;
+    let buildRef= `${this.props.entityName}BREF`;
+
 
     const fileDefinition =
       `//generator-ios-jhi-add-files-here\n`+
-      `\t\t ${fileRef} /* ${this.props.entityName}Dto.swift in Sources */ = {isa = PBXBuildFile; fileRef = ${fileRef} /* ${this.props.entityName}Dto.swift */; };\n`;
+      `\t\t ${buildRef} /* ${this.props.entityName}Dto.swift in Sources */ = {isa = PBXBuildFile; fileRef = ${fileRef} /* ${this.props.entityName}Dto.swift */; };\n`;
 
     const fileDefinition2 =
       `//generator-ios-jhi-add-files2-here\n`+
@@ -228,7 +230,12 @@ module.exports = class extends Generator {
       `//generator-ios-jhi-add-files3-here\n`+
       `\t\t ${fileRef} /* ${this.props.entityName}Dto.swift */,\n`;
 
-    this.fs.copy(
+    const fileDefinition4=
+      `//generator-ios-jhi-add-files4-here\n`+
+      `\t\t ${buildRef} /* ${this.props.entityName}Dto.swift in Sources */,\n`;
+
+
+      this.fs.copy(
       `${appName}.xcodeproj/project.pbxproj`,
       `${appName}.xcodeproj/project.pbxproj`,
       {
@@ -241,6 +248,9 @@ module.exports = class extends Generator {
 
           regEx = new RegExp('//generator-ios-jhi-add-files-here', 'g');
           newcontent= newcontent.toString().replace(regEx, fileDefinition);
+
+          regEx = new RegExp('//generator-ios-jhi-add-files4-here', 'g');
+          newcontent= newcontent.toString().replace(regEx, fileDefinition4);
           return newcontent
         }
       }
